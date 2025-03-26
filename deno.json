@@ -1,0 +1,18 @@
+{
+    "tasks": {
+        "dev": "deno run --allow-env --allow-net src/main.ts"
+    },
+    "imports": {
+        "@/": "./src/",
+        "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
+        "@modelcontextprotocol/sdk": "npm:@modelcontextprotocol/sdk@^1.7.0",
+        "@std/assert": "jsr:@std/assert@1",
+        "express": "npm:express@^4.21.2"
+    },
+    "fmt": {
+        "indentWidth": 4,
+        "exclude": [
+            "README.md"
+        ]
+    }
+}
