@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import express, { NextFunction, Request, Response } from "express";
+import { SSEServerTransport } from "@mcp/sdk/server/sse.js";
+import { StdioServerTransport } from "@mcp/sdk/server/stdio.js";
 import { Command } from "@cliffy/command";
 
 import { VERSION } from "@/types.ts";
@@ -17,8 +17,11 @@ await new Command()
         await startStdioServer();
     })
     .command("http", "Start the MCP server with HTTP/SSE transport")
-    .action(() => {
-        startHttpServer();
+    .option("-p, --port <port>", "Port to listen on", {
+        default: 2499,
+    })
+    .action(({ port }) => {
+        startHttpServer(Number(port));
     })
     .parse(Deno.args);
 
@@ -34,11 +37,32 @@ async function startStdioServer() {
 /**
  * Start the MCP server with HTTP/SSE transport (for web usage)
  */
-function startHttpServer() {
+function startHttpServer(port: number) {
     const app = express();
-    const SSE_PORT = 2499;
+    const SSE_PORT = port;
 
-    // to support multiple simultaneous connections we have a lookup object from
+    // Request logging middleware
+    app.use((req: Request, res: Response, next: NextFunction) => {
+        const start = Date.now();
+        const originalEnd = res.end;
+
+        res.end = function (
+            chunk?: string | Uint8Array,
+            encoding?: string,
+        ) {
+            const responseTime = Date.now() - start;
+            console.log(
+                `${new Date().toISOString()} - ${req.method} ${
+                    req.originalUrl || req.url
+                } - ${res.statusCode} - ${responseTime}ms`,
+            );
+            return originalEnd.call(res, chunk, encoding);
+        };
+
+        next();
+    });
+
+    // To support multiple simultaneous connections we have a lookup object from
     // sessionId to transport
     const transports: { [sessionId: string]: SSEServerTransport } = {};
 

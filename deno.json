@@ -1,13 +1,16 @@
 {
+    "version": "0.1.0",
     "tasks": {
-        "dev": "deno run --allow-env --allow-net src/main.ts"
+        "test": "deno test --allow-env",
+        "dev": "deno run --allow-env --allow-run --allow-net src/main.ts"
     },
     "imports": {
         "@/": "./src/",
         "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
-        "@modelcontextprotocol/sdk": "npm:@modelcontextprotocol/sdk@^1.7.0",
-        "@std/assert": "jsr:@std/assert@1",
-        "express": "npm:express@^4.21.2"
+        "@mcp/sdk": "npm:@modelcontextprotocol/sdk@^1.7.0",
+        "@std/assert": "jsr:@std/assert@^1.0.12",
+        "express": "npm:express@^4.21.2",
+        "zod": "npm:zod@^3.24.2"
     },
     "fmt": {
         "indentWidth": 4,
