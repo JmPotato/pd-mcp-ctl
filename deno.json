@@ -2,7 +2,8 @@
     "version": "0.1.0",
     "tasks": {
         "test": "deno test --allow-env",
-        "dev": "deno run --allow-env --allow-run --allow-net src/main.ts"
+        "dev": "deno run --allow-env --allow-run --allow-net src/main.ts",
+        "build": "deno compile --allow-env --allow-run --allow-net --output=dist/pd-mcp-ctl src/main.ts"
     },
     "imports": {
         "@/": "./src/",
