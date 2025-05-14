@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/jmpotato-pd-mcp-ctl-badge.png)](https://mseep.ai/app/jmpotato-pd-mcp-ctl)
+
 # pd-mcp-ctl
 
 Connects the Model Context Protocol (MCP) with PD Control, enabling LLMs to interact with and manage TiKV cluster efficiently and intelligently.
